@@ -1,1 +1,89 @@
-/* You can add global styles to this file, and also import other style files */
+/* Add application styles & imports to this file! */
+
+body {
+  padding: 20px;
+}
+
+.form-box__row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+input.form-control {
+  border: 1px solid #c0c0c0;
+  height: 40px;
+  width: 400px;
+}
+
+button.add-button {
+  border: 1px solid #c0c0c0;
+  border-radius: 5px;
+  background-color: #0060c0;
+  color: white;
+  height: 40px;
+  padding: 0px 20px;
+}
+
+.autocomplete-element {
+  border: 1px solid #c0c0c0;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  height: 40px;
+  padding: 0px 12px;
+}
+
+.clear-all-button {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.items-box {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  height: 100%;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.item {
+  background-color: #0050b0;
+  border-radius: 15px;
+  color: white;
+  height: 26px;
+  padding: 5px 12px;
+  display: flex;
+  font-size: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  max-width: 150px;
+}
+
+.item.hide {
+  display: none;
+}
+
+.item span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item button {
+  border: 0;
+  background-color: transparent;
+  color: white;
+  padding: 0;
+}
