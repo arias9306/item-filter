@@ -13,43 +13,7 @@
     <button type="button" class="add-button" (click)="addItem()">Add</button>
   </div>
 </div>
+
 <hr />
 
-<div class="display-box">
-  <h3>Display Items</h3>
-  <div class="autocomplete-element">
-    <div class="items-box" #pillContainer id="ari">
-      @for (item of items; track item; let index = $index) {
-      <div #pill class="item">
-        <span>{{ item }}</span>
-        <button type="button" (click)="removeItem(index)">&times;</button>
-      </div>
-      } @if (overflowedItemsSignal() > 0) {
-      <div #moreItemsPill class="item more-items">
-        <span>+{{ overflowedItemsSignal() }} items</span>
-        <button type="button" (click)="removeOverflowedItems()">&times;</button>
-      </div>
-      }
-    </div>
-
-    @if (items.length > 0) {
-    <button type="button" class="clear-all-button" (click)="removeAllItems()">
-      &times;
-    </button>
-    }
-  </div>
-</div>
-<hr />
-
-<div class="array-box">
-  <h3>Array Items (JSON)</h3>
-  <pre>{{ items | json }}</pre>
-</div>
-<hr />
-
-<h3>Info</h3>
-<ul>
-  <li>Total Items: {{ items.length }}</li>
-  <li>Overflowed Items: {{ overflowedItemsSignal() }}</li>
-  <li>Overflow Start Index: {{ overflowStartIndexSignal() }}</li>
-</ul>
+<app-pills-list [(pills)]="items" [showInfo]="true" />
