@@ -71,6 +71,10 @@ button.add-button {
   max-width: 150px;
 }
 
+.item-empty {
+  color: #c0c0c0;
+}
+
 .item.hide {
   display: none;
 }

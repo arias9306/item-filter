@@ -5,7 +5,11 @@
       <span>{{ item }}</span>
       <button type="button" (click)="removeItem(index)">&times;</button>
     </div>
-    } @if (overflowedItems() > 0) {
+    } @empty { <span class="item-empty">No items...</span> }
+
+    <!-- Line to avoid formating -->
+
+    @if (overflowedItems() > 0) {
     <div #moreItemsPill class="item more-items">
       <span>+{{ overflowedItems() }} items</span>
       <button type="button" (click)="removeOverflowedItems()">&times;</button>
