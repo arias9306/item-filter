@@ -11,6 +11,7 @@ import {
   OnDestroy,
   Renderer2,
   signal,
+  untracked,
   viewChild,
   viewChildren,
 } from '@angular/core';
@@ -92,7 +93,6 @@ export class PillsListComponent implements AfterViewInit, OnDestroy {
       .pipe(
         debounceTime(100),
         skip(1),
-        tap(() => console.log('callel')),
         tap(() => this.checkPills('resize observer'))
       )
       .subscribe();
@@ -122,8 +122,10 @@ export class PillsListComponent implements AfterViewInit, OnDestroy {
     // Make items visible first and restart overflow start index
     this.showAllItems();
 
-    if (this.pillContainer() && this.pills().length > 0) {
-      const containerWidth = this.pillContainer().nativeElement.offsetWidth;
+    const pillContainerElement = this.pillContainer();
+
+    if (pillContainerElement && this.pills().length > 0) {
+      const containerWidth = pillContainerElement.nativeElement.offsetWidth;
 
       // Get Index of first item that overflows
       let firstItemOverflowIndex = this.pillsElements().findIndex(
@@ -132,17 +134,19 @@ export class PillsListComponent implements AfterViewInit, OnDestroy {
       );
 
       if (firstItemOverflowIndex !== -1) {
-        // Hide all elements with index >= overflowStartIndex
-        this.hideOverflowingItems(firstItemOverflowIndex);
+        // avoid track more item pills signal
+        let moreItemPillsElement = undefined;
+        untracked(() => {
+          moreItemPillsElement = this.moreItemsPill()?.nativeElement;
+        });
 
         // If More Items pill is visible
-        const moreItemPills = this.moreItemsPill();
-        if (moreItemPills?.nativeElement) {
+        if (moreItemPillsElement) {
           let moreItemsOverflowing = true;
 
           // Hide last visible item until "More Items pill" does not overflow
           while (moreItemsOverflowing && firstItemOverflowIndex >= 0) {
-            const { offsetLeft, offsetWidth } = moreItemPills.nativeElement;
+            const { offsetLeft, offsetWidth } = moreItemPillsElement;
             const moreItemsEndPosition = offsetLeft + offsetWidth;
             if (moreItemsEndPosition > containerWidth) {
               firstItemOverflowIndex -= 1;
@@ -151,6 +155,9 @@ export class PillsListComponent implements AfterViewInit, OnDestroy {
               moreItemsOverflowing = false;
             }
           }
+        } else {
+          // Hide all elements with index >= overflowStartIndex
+          this.hideOverflowingItems(firstItemOverflowIndex);
         }
       }
       this.overflowStartIndex.set(firstItemOverflowIndex);
