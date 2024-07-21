@@ -7,6 +7,7 @@ import {
   ElementRef,
   inject,
   input,
+  InputSignal,
   model,
   OnDestroy,
   Renderer2,
@@ -29,7 +30,7 @@ export class PillsListComponent implements AfterViewInit, OnDestroy {
   private readonly renderer = inject(Renderer2);
 
   pills = model.required<string[]>();
-  showInfo = input<boolean>(false);
+  showInfo: InputSignal<boolean> = input<boolean>(false);
 
   private containerResizeSubject: Subject<void> = new Subject<void>();
   private containerResizeObserver!: ResizeObserver;
@@ -135,10 +136,7 @@ export class PillsListComponent implements AfterViewInit, OnDestroy {
 
       if (firstItemOverflowIndex !== -1) {
         // avoid track more item pills signal
-        let moreItemPillsElement = undefined;
-        untracked(() => {
-          moreItemPillsElement = this.moreItemsPill()?.nativeElement;
-        });
+        let moreItemPillsElement = untracked(this.moreItemsPill)?.nativeElement;
 
         // If More Items pill is visible
         if (moreItemPillsElement) {
